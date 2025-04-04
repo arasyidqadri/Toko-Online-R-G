@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aplikasi E-Commerce Toko Online</title>
+  <style>
+    /* GAYA CSS TETAP SAMA, TANPA PERUBAHAN */
+    /* ... [CSS kamu tetap, tidak diubah] ... */
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; color: #333; transition: background-color 0.3s, color 0.3s; }
+    header { background-color: #4a90e2; color: white; padding: 1em; text-align: center; position: sticky; top: 0; z-index: 10; }
+    nav { display: flex; justify-content: center; background: #eee; gap: 1em; padding: 0.5em; flex-wrap: wrap; }
+    nav button { background: none; border: none; font-weight: bold; cursor: pointer; padding: 0.5em; }
+    nav button:hover { color: #4a90e2; }
+    .kontrol { margin-top: 1em; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5em; }
+    .kontrol input, .kontrol select, .kontrol button { padding: 0.5em; font-size: 1em; border-radius: 0.5em; border: 1px solid #ccc; }
+    main section { display: none; background-color: white; padding: 1em; margin: 1em; border-radius: 0.5em; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    main section.active { display: block; }
+    #daftar-produk, #daftar-keranjang, #daftar-favorit, #daftar-produk-beranda { display: flex; flex-wrap: wrap; gap: 1em; justify-content: center; }
+    .produk, .keranjang { width: 200px; border: 1px solid #ddd; border-radius: 0.5em; overflow: hidden; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+    .produk img, .keranjang img { width: 100%; height: 150px; object-fit: cover; }
+    .tambah-keranjang, .hapus-keranjang, #checkout-btn { background-color: #4a90e2; color: white; border: none; padding: 0.5em; width: 100%; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+    .tambah-keranjang:hover, .hapus-keranjang:hover, #checkout-btn:hover { background-color: #357ab7; }
+    .favorit-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #e74c3c; }
+    .notifikasi { position: fixed; top: 1em; right: 1em; background: #4caf50; color: white; padding: 1em; border-radius: 0.5em; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 100; display: none; }
+    .dark-mode { background-color: #1a1a1a; color: #f2f2f2; }
+    .dark-mode section { background-color: #2a2a2a; color: #f2f2f2; }
+    .form-login { max-width: 400px; margin: auto; background: #fff; padding: 2em; border-radius: 1em; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .form-login input { width: 100%; margin-bottom: 1em; padding: 0.75em; border-radius: 0.5em; border: 1px solid #ccc; }
+    .form-login button { width: 100%; padding: 0.75em; background-color: #4a90e2; color: white; border: none; border-radius: 0.5em; font-weight: bold; cursor: pointer; }
+    .form-login button:hover { background-color: #357ab7; }
+    .form-login .link { display: block; margin-top: 1em; text-align: center; }
+    @media (max-width: 768px) { .produk, .keranjang { width: 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aplikasi E-Commerce Toko Online R&G</h1>
+    <nav>
+      <button onclick="showPage('beranda')">Beranda</button>
+      <button onclick="showPage('produk')">Produk</button>
+      <button onclick="showPage('keranjang')">Keranjang</button>
+      <button onclick="showPage('favorit')">Favorit</button>
+      <button onclick="showPage('tentang')">Tentang Kami</button>
+      <button onclick="showPage('kontak')">Kontak</button>
+      <button id="loginBtn" onclick="showPage('login')">Login</button>
+      <button id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
+      <button onclick="toggleDarkMode()">🌓</button>
+    </nav>
+    <div class="kontrol" id="kontrol-produk">
+      <input type="text" id="search" placeholder="Cari produk...">
+      <select id="kategori">
+        <option value="">Semua Kategori</option>
+        <option value="Elektronik">Elektronik</option>
+        <option value="Fashion">Fashion</option>
+        <option value="Makanan">Makanan</option>
+        <option value="Minuman">Minuman</option>
+        <option value="Alat Make Up">Alat Make Up</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section id="beranda" class="active">
+      <h2>Selamat datang di Toko Online R&G -Rasyid&Galang- !</h2>
+      <p>Temukan produk terbaik dengan harga terjangkau.</p>
+      <div id="daftar-produk-beranda"></div>
+    </section>
+    <section id="produk">
+      <h2>Daftar Produk</h2>
+      <div id="daftar-produk"></div>
+    </section>
+    <section id="keranjang">
+      <h2>Keranjang Belanja</h2>
+      <div id="daftar-keranjang"></div>
+      <button id="checkout-btn" onclick="checkout()">Checkout</button>
+    </section>
+    <section id="favorit">
+      <h2>Produk Favorit</h2>
+      <div id="daftar-favorit"></div>
+    </section>
+    <section id="tentang">
+      <h2>Tentang Kami</h2>
+      <p>Kami adalah toko online R&G -Rasyid & Galang- terpercaya yang menyediakan berbagai produk kebutuhan Anda.</p>
+    </section>
+    <section id="kontak">
+      <h2>Hubungi Kami</h2>
+      <p>Email: R&G@tokoonline.com</p>
+      <p>WhatsApp: +62 895 2965 2164</p>
+    </section>
+    <section id="login">
+      <h2 style="text-align:center">Login</h2>
+      <div class="form-login">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <a class="link" href="#" onclick="showPage('register')">Belum punya akun? Daftar</a>
+        <a class="link" href="#" onclick="alert('Silakan hubungi admin untuk reset password.')">Lupa Password?</a>
+      </div>
+    </section>
+    <section id="register">
+      <h2 style="text-align:center">Daftar Akun Baru</h2>
+      <div class="form-login">
+        <input type="text" placeholder="Nama Lengkap">
+        <input type="email" placeholder="Email">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button onclick="register()">Daftar</button>
+        <a class="link" href="#" onclick="showPage('login')">Sudah punya akun? Login</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="notifikasi" id="notifikasi"></div>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      if (id === "keranjang") tampilkanKeranjang();
+    }
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const adminDefault = (username === "admin" && password === "123");
+      const userMatch = users.find(u => u.username === username && u.password === password);
+
+      if (adminDefault || userMatch) {
+        alert("Login berhasil");
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "inline";
+        showPage("beranda");
+      } else {
+        alert("Username atau password salah");
+      }
+    }
+
+    function register() {
+      const nama = document.querySelector('#register input[placeholder="Nama Lengkap"]').value.trim();
+      const email = document.querySelector('#register input[placeholder="Email"]').value.trim();
+      const username = document.querySelector('#register input[placeholder="Username"]').value.trim();
+      const password = document.querySelector('#register input[placeholder="Password"]').value;
+
+      if (!nama || !email || !username || !password) {
+        alert("Harap lengkapi semua data.");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const userExists = users.find(u => u.username === username);
+      if (userExists) {
+        alert("Username sudah terdaftar.");
+        return;
+      }
+
+      users.push({ nama, email, username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Registrasi berhasil! Silakan login.");
+      showPage("login");
+    }
+
+    function logout() {
+      alert("Anda telah logout");
+      document.getElementById("loginBtn").style.display = "inline";
+      document.getElementById("logoutBtn").style.display = "none";
+      showPage("login");
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function checkout() {
+      alert("Checkout berhasil!");
+    }
+
+    function tampilkanProduk(targetId) {
+      const daftar = document.getElementById(targetId);
+      if (!daftar) return;
+      daftar.innerHTML = "";
+
+      produk.forEach(p => {
+        const el = document.createElement("div");
+        el.className = "produk";
+        el.innerHTML = `
+          <img src="${p.gambar}" alt="${p.nama}">
+          <h3>${p.nama}</h3>
+          <p>Rp ${p.harga.toLocaleString("id-ID")}</p>
+          <button class="tambah-keranjang">Tambah</button>
+          <button class="lihat-detail">Lihat Detail</button>
+        `;
+        daftar.appendChild(el);
+      });
+    }
+
+    function tampilkanKeranjang() {
+      const daftar = document.getElementById("daftar-keranjang");
+      daftar.innerHTML = "";
+      const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+      if (keranjang.length === 0) {
+        daftar.innerHTML = "<p>Keranjang kosong.</p>";
+        return;
+      }
+
+      keranjang.forEach((p, i) => {
+        const el = document.createElement("div");
+        el.className = "keranjang";
+        el.innerHTML = `
+          <img src="${p.gambar}" alt="${p.nama}">
+          <h3>${p.nama}</h3>
+          <p>Rp ${p.harga.toLocaleString("id-ID")}</p>
+          <button class="hapus-keranjang">Hapus</button>
+        `;
+        el.querySelector(".hapus-keranjang").addEventListener("click", () => {
+          keranjang.splice(i, 1);
+          localStorage.setItem("keranjang", JSON.stringify(keranjang));
+          tampilkanKeranjang();
+        });
+        daftar.appendChild(el);
+      });
+    }
+
+    const produk = [
+      { id: 1, nama: "Laptop", kategori: "Elektronik", harga: 7000000, gambar: "https://picsum.photos/id/1/400/300" },
+      { id: 2, nama: "Baju Kemeja", kategori: "Fashion", harga: 150000, gambar: "https://picsum.photos/id/1005/400/300" },
+      { id: 3, nama: "Nasi Goreng", kategori: "Makanan", harga: 25000, gambar: "https://picsum.photos/id/292/400/300" },
+      { id: 4, nama: "Teh Botol", kategori: "Minuman", harga: 8000, gambar: "https://picsum.photos/id/1060/400/300" },
+      { id: 5, nama: "Lipstik Matte", kategori: "Alat Make Up", harga: 50000, gambar: "https://picsum.photos/id/1011/400/300" }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      tampilkanProduk("daftar-produk");
+      tampilkanProduk("daftar-produk-beranda");
+    });
+  </script>
+</body>
+</html>
