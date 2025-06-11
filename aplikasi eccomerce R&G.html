@@ -1,41 +1,354 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aplikasi E-Commerce Toko Online</title>
   <style>
-    /* GAYA CSS TETAP SAMA, TANPA PERUBAHAN */
-    /* ... [CSS kamu tetap, tidak diubah] ... */
-    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; color: #333; transition: background-color 0.3s, color 0.3s; }
-    header { background-color: #4a90e2; color: white; padding: 1em; text-align: center; position: sticky; top: 0; z-index: 10; }
-    nav { display: flex; justify-content: center; background: #eee; gap: 1em; padding: 0.5em; flex-wrap: wrap; }
-    nav button { background: none; border: none; font-weight: bold; cursor: pointer; padding: 0.5em; }
-    nav button:hover { color: #4a90e2; }
-    .kontrol { margin-top: 1em; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5em; }
-    .kontrol input, .kontrol select, .kontrol button { padding: 0.5em; font-size: 1em; border-radius: 0.5em; border: 1px solid #ccc; }
-    main section { display: none; background-color: white; padding: 1em; margin: 1em; border-radius: 0.5em; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    main section.active { display: block; }
-    #daftar-produk, #daftar-keranjang, #daftar-favorit, #daftar-produk-beranda { display: flex; flex-wrap: wrap; gap: 1em; justify-content: center; }
-    .produk, .keranjang { width: 200px; border: 1px solid #ddd; border-radius: 0.5em; overflow: hidden; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-    .produk img, .keranjang img { width: 100%; height: 150px; object-fit: cover; }
-    .tambah-keranjang, .hapus-keranjang, #checkout-btn { background-color: #4a90e2; color: white; border: none; padding: 0.5em; width: 100%; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
-    .tambah-keranjang:hover, .hapus-keranjang:hover, #checkout-btn:hover { background-color: #357ab7; }
-    .favorit-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #e74c3c; }
-    .notifikasi { position: fixed; top: 1em; right: 1em; background: #4caf50; color: white; padding: 1em; border-radius: 0.5em; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 100; display: none; }
-    .dark-mode { background-color: #1a1a1a; color: #f2f2f2; }
-    .dark-mode section { background-color: #2a2a2a; color: #f2f2f2; }
-    .form-login { max-width: 400px; margin: auto; background: #fff; padding: 2em; border-radius: 1em; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .form-login input { width: 100%; margin-bottom: 1em; padding: 0.75em; border-radius: 0.5em; border: 1px solid #ccc; }
-    .form-login button { width: 100%; padding: 0.75em; background-color: #4a90e2; color: white; border: none; border-radius: 0.5em; font-weight: bold; cursor: pointer; }
-    .form-login button:hover { background-color: #357ab7; }
-    .form-login .link { display: block; margin-top: 1em; text-align: center; }
-    @media (max-width: 768px) { .produk, .keranjang { width: 100%; } }
+    body {
+      background-color: #4a90e2;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header {
+      background-image: url("images.jpg");
+      color: white;
+      padding: 1em;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .PesananDanPengiriman-container {
+      position: fixed;
+      bottom: 310px;
+      right: 20px;
+      text-align: center;
+      z-index: 100;
+    }
+
+
+    .PesananDanPengiriman-logo {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .PesananDanPengiriman-text {
+      margin-top: 5px;
+      font-size: 8px;
+      color: black;
+      background-color: #357ab7;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+
+    .Topup-container {
+      position: fixed;
+      bottom: 210px;
+      right: 35px;
+      text-align: center;
+      z-index: 100;
+    }
+
+
+    .Topup-logo {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .Topup-text {
+      margin-top: 5px;
+      font-size: 10px;
+      color: black;
+      background-color: #357ab7;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+
+    .tagihandanpulsa-container {
+      position: fixed;
+      bottom: 110px;
+      right: 23px;
+      text-align: center;
+      z-index: 100;
+    }
+
+
+    .tagihandanpulsa-logo {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .tagihandanpulsa-text {
+      margin-top: 5px;
+      font-size: 10px;
+      color: black;
+      background-color: #357ab7;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+
+    .diskon-container {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      text-align: center;
+      z-index: 100;
+    }
+
+    .diskon-logo {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .diskon-text {
+      margin-top: 1px;
+      font-size: 10px;
+      color: black;
+      background-color: #357ab7;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #eee;
+      gap: 1em;
+      padding: 0.5em;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0.5em;
+    }
+
+    nav button:hover {
+      color: #4a90e2;
+    }
+
+    .kontrol {
+      margin-top: 1em;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5em;
+    }
+
+    .kontrol input,
+    .kontrol select,
+    .kontrol button {
+      padding: 0.5em;
+      font-size: 1em;
+      border-radius: 0.5em;
+      border: 1px solid #ccc;
+    }
+
+    main section {
+      display: none;
+      background-color: white;
+      padding: 1em;
+      margin: 1em;
+      border-radius: 0.5em;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    main section.active {
+      display: block;
+    }
+
+    #daftar-produk,
+    #daftar-keranjang,
+    #daftar-favorit,
+    #daftar-produk-beranda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      justify-content: center;
+    }
+
+    .produk,
+    .keranjang {
+      width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 0.5em;
+      overflow: hidden;
+      background: #83138160;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .produk img,
+    .keranjang img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .tambah-keranjang,
+    .hapus-keranjang,
+    #checkout-btn {
+      background-color: #4a90e2;
+      color: rgb(255, 255, 255);
+      border: none;
+      padding: 0.5em;
+      width: 100%;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .tambah-keranjang:hover,
+    .hapus-keranjang:hover,
+    #checkout-btn:hover {
+      background-color: #357ab7;
+    }
+
+    .favorit-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #e74c3c;
+    }
+
+    .notifikasi {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      background: #4caf50;
+      color: white;
+      padding: 1em;
+      border-radius: 0.5em;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      display: none;
+    }
+
+    .dark-mode {
+      background-color: #1a1a1a;
+      color: #f2f2f2;
+    }
+
+    .dark-mode section {
+      background-color: #2a2a2a;
+      color: #f2f2f2;
+    }
+
+    .form-login {
+      width: 400px;
+      height: auto;
+      margin: auto;
+      background: transparent;
+      padding: 2em;
+      border-radius: 1em;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-login input {
+      width: 100%;
+      margin-bottom: 1em;
+      padding: 0.75em;
+      border-radius: 0.5em;
+      border: 1px solid #ccc;
+    }
+
+    .form-login button {
+      width: 100%;
+      padding: 0.75em;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 0.5em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .form-login button:hover {
+      background-color: #357ab7;
+    }
+
+    .form-login .link {
+      display: block;
+      margin-top: 1em;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+
+      .produk,
+      .keranjang {
+        width: 100%;
+      }
+    }
+
+    .top-right-menu {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-toggle-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .menu-items {
+      display: none;
+      /* Initially hidden */
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-items li {
+      background-color: #f1f1f1;
+      margin: 5px 0;
+    }
+
+    .menu-items li a {
+      text-decoration: none;
+      padding: 10px;
+      display: block;
+    }
+
+    .menu-items li:hover {
+      background-color: #ddd;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Aplikasi E-Commerce Toko Online R&G</h1>
+    <div id="topRightMenu" class="top-right-menu">
+      <button id="toggleButton" class="menu-toggle-btn">Menu</button>
+      <ul id="menuItems" class="menu-items">
+        <li><a href="profil.html">Profile</a></li>
+        <li><a href="setelan.html">Settings</a></li>
+        <li><a href="logout.html">Logout</a></li>
+      </ul>
+    </div>
+
     <nav>
       <button onclick="showPage('beranda')">Beranda</button>
       <button onclick="showPage('produk')">Produk</button>
@@ -48,7 +361,7 @@
       <button onclick="toggleDarkMode()">🌓</button>
     </nav>
     <div class="kontrol" id="kontrol-produk">
-      <input type="text" id="search" placeholder="Cari produk...">
+      <input type="text" id="search" placeholder="Cari produk...?">
       <select id="kategori">
         <option value="">Semua Kategori</option>
         <option value="Elektronik">Elektronik</option>
@@ -64,6 +377,24 @@
     <section id="beranda" class="active">
       <h2>Selamat datang di Toko Online R&G -Rasyid&Galang- !</h2>
       <p>Temukan produk terbaik dengan harga terjangkau.</p>
+      <div class="PesananDanPengiriman-container">
+        <img src="logoPesananDanPengiriman.png" alt="" class="PesananDanPengiriman-logo"
+          onclick="bukaPesananDanPengiriman()">
+        <div class="PesananDanPengiriman-text">Pesanan & Pengiriman</div>
+      </div>
+      <div class="Topup-container">
+        <img src="logoTopup.png" alt="Topup" class="Topup-logo" onclick="bukaTopup()">
+        <div class="Topup-text">Top up</div>
+      </div>
+      <div class="tagihandanpulsa-container">
+        <img src="logoTagihanDanPulsa.png" alt="tagihandanpulsa" class="tagihandanpulsa-logo"
+          onclick="bukaTagihanDanPulsa()">
+        <div class="tagihandanpulsa-text">Tagihan/Pulsa</div>
+      </div>
+      <div class="diskon-container">
+        <img src="logo-diskon.jpg" alt="Diskon" class="diskon-logo" onclick="bukaDiskon()">
+        <div class="diskon-text">Diskon Spesial!</div>
+      </div>
       <div id="daftar-produk-beranda"></div>
     </section>
     <section id="produk">
@@ -89,18 +420,17 @@
       <p>WhatsApp: +62 895 2965 2164</p>
     </section>
     <section id="login">
-      <h2 style="text-align:center">Login</h2>
       <div class="form-login">
+        <h2 style="text-align:center">Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
         <button onclick="login()">Login</button>
         <a class="link" href="#" onclick="showPage('register')">Belum punya akun? Daftar</a>
         <a class="link" href="#" onclick="alert('Silakan hubungi admin untuk reset password.')">Lupa Password?</a>
-      </div>
     </section>
     <section id="register">
-      <h2 style="text-align:center">Daftar Akun Baru</h2>
       <div class="form-login">
+        <h2 style="text-align:center">Daftar Akun Baru</h2>
         <input type="text" placeholder="Nama Lengkap">
         <input type="email" placeholder="Email">
         <input type="text" placeholder="Username">
@@ -118,6 +448,33 @@
       document.querySelectorAll("main section").forEach(sec => sec.classList.remove("active"));
       document.getElementById(id).classList.add("active");
       if (id === "keranjang") tampilkanKeranjang();
+      if (id === "favorit") tampilkanFavorit();
+      if (id === "produk") filterProduk();
+    }
+
+    function bukaPesananDanPengiriman() {
+      window.open('pesanan&pengiriman.html', '_blank');
+    }
+
+    function bukaTopup() {
+      window.open('topup.html', '_blank');
+    }
+
+    function bukaTagihanDanPulsa() {
+      window.open('tagihandanpulsa.html', '_blank');
+    }
+
+    function bukaDiskon() {
+      window.open('diskon.html', '_blank');
+    }
+
+    function changeLanguage(language) {
+      $.getJSON(language + '.json', function (data) {
+        $('#welcome-message').text(data.welcome_message);
+        $('#product-title').text(data.product_title);
+        $('#checkout-button').text(data.checkout_button);
+        // Tambahkan elemen lainnya yang perlu diubah
+      });
     }
 
     function login() {
@@ -177,14 +534,19 @@
 
     function checkout() {
       alert("Checkout berhasil!");
+      localStorage.removeItem("keranjang");
+      tampilkanKeranjang();
     }
 
     function tampilkanProduk(targetId) {
+      tampilkanProdukDenganData(targetId, produk);
+    }
+
+    function tampilkanProdukDenganData(targetId, dataProduk) {
       const daftar = document.getElementById(targetId);
-      if (!daftar) return;
       daftar.innerHTML = "";
 
-      produk.forEach(p => {
+      dataProduk.forEach(p => {
         const el = document.createElement("div");
         el.className = "produk";
         el.innerHTML = `
@@ -192,8 +554,33 @@
           <h3>${p.nama}</h3>
           <p>Rp ${p.harga.toLocaleString("id-ID")}</p>
           <button class="tambah-keranjang">Tambah</button>
+          <button class="favorit-btn">❤️</button>
           <button class="lihat-detail">Lihat Detail</button>
         `;
+
+        // Tambah ke keranjang
+        el.querySelector(".tambah-keranjang").addEventListener("click", () => {
+          let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+          keranjang.push(p);
+          localStorage.setItem("keranjang", JSON.stringify(keranjang));
+          alert("Produk ditambahkan ke keranjang!");
+        });
+
+        // Favorit
+        el.querySelector(".favorit-btn").addEventListener("click", () => {
+          let favorit = JSON.parse(localStorage.getItem("favorit")) || [];
+          if (!favorit.find(f => f.id === p.id)) {
+            favorit.push(p);
+            localStorage.setItem("favorit", JSON.stringify(favorit));
+            alert("Ditambahkan ke favorit!");
+          }
+        });
+
+        // Lihat Detail
+        el.querySelector(".lihat-detail").addEventListener("click", () => {
+          alert(`Detail Produk:\n\nNama: ${p.nama}\nKategori: ${p.kategori}\nHarga: Rp ${p.harga.toLocaleString("id-ID")}`);
+        });
+
         daftar.appendChild(el);
       });
     }
@@ -226,18 +613,89 @@
       });
     }
 
+    function tampilkanFavorit() {
+      const daftar = document.getElementById("daftar-favorit");
+      daftar.innerHTML = "";
+      const favorit = JSON.parse(localStorage.getItem("favorit")) || [];
+
+      if (favorit.length === 0) {
+        daftar.innerHTML = "<p>Belum ada produk favorit.</p>";
+        return;
+      }
+
+      favorit.forEach(p => {
+        const el = document.createElement("div");
+        el.className = "produk";
+        el.innerHTML = `
+          <img src="${p.gambar}" alt="${p.nama}">
+          <h3>${p.nama}</h3>
+          <p>Rp ${p.harga.toLocaleString("id-ID")}</p>
+        `;
+        daftar.appendChild(el);
+      });
+    }
+
+    function filterProduk() {
+      const keyword = document.getElementById("search").value.toLowerCase();
+      const kategori = document.getElementById("kategori").value;
+
+      const hasilFilter = produk.filter(p =>
+        p.nama.toLowerCase().includes(keyword) &&
+        (kategori === "" || p.kategori === kategori)
+      );
+
+      tampilkanProdukDenganData("daftar-produk", hasilFilter);
+    }
+
     const produk = [
-      { id: 1, nama: "Laptop", kategori: "Elektronik", harga: 7000000, gambar: "https://picsum.photos/id/1/400/300" },
-      { id: 2, nama: "Baju Kemeja", kategori: "Fashion", harga: 150000, gambar: "https://picsum.photos/id/1005/400/300" },
-      { id: 3, nama: "Nasi Goreng", kategori: "Makanan", harga: 25000, gambar: "https://picsum.photos/id/292/400/300" },
-      { id: 4, nama: "Teh Botol", kategori: "Minuman", harga: 8000, gambar: "https://picsum.photos/id/1060/400/300" },
-      { id: 5, nama: "Lipstik Matte", kategori: "Alat Make Up", harga: 50000, gambar: "https://picsum.photos/id/1011/400/300" }
+      { id: 1, nama: "Laptop", kategori: "Elektronik", harga: 7000000, gambar: "laptop.jpg" },
+      { id: 2, nama: "Laptop Gaming", kategori: "Elektronik", harga: 7800000, gambar: "LaptopGaming.jpg" },
+      { id: 3, nama: "Laptop Axio Gaming", kategori: "Elektronik", harga: 9800000, gambar: "LaptopAxioGaming.jpg" },
+      { id: 4, nama: "Baju Kemeja Cowo", kategori: "Fashion", harga: 600000, gambar: "BajuKemejaCowo.jpg" },
+      { id: 5, nama: "Baju Kemeja Cewe", kategori: "Fashion", harga: 550000, gambar: "BajuKemejaCewe.jpg" },
+      { id: 6, nama: "Nasi Goreng Telur", kategori: "Makanan", harga: 25000, gambar: "NasiGorengTelor.jpg" },
+      { id: 7, nama: "Nasi Goreng Telur Sapi", kategori: "Makanan", harga: 35000, gambar: "NasiGorengSapi.jpg" },
+      { id: 8, nama: "Teh Botol Sosro", kategori: "Minuman", harga: 8000, gambar: "TehBotolSosro.jpg" },
+      { id: 9, nama: "Teh Botol Kotak", kategori: "Minuman", harga: 7000, gambar: "TehBotolKotak.jpg" },
+      { id: 10, nama: "Es Berbagai Rasa", kategori: "Minuman", harga: 8000, gambar: "esBerbagaiMacam.jpg" },
+      { id: 11, nama: "Sprit", kategori: "Minuman", harga: 7500, gambar: "Sprit.jpg" },
+      { id: 12, nama: "CocaCola", kategori: "Minuman", harga: 8500, gambar: "CocaCola.jpg" },
+      { id: 13, nama: "Pepsi(Soda)", kategori: "Minuman", harga: 7000, gambar: "Pepsi(soda).jpg" },
+      { id: 14, nama: "Boba Cappucino", kategori: "Minuman", harga: 7500, gambar: "BobaCappucino.jpg" },
+      { id: 15, nama: "Boba Coklat", kategori: "Minuman", harga: 7500, gambar: "BobaCoklat.jpg" },
+      { id: 16, nama: "Boba Berbagai Macam Rasa", kategori: "Minuman", harga: 7500, gambar: "BobaBerbagaiMacamRasa.jpg" },
+      { id: 17, nama: "Manis Madu", kategori: "Minuman", harga: 7500, gambar: "ManisMadu.jpg" },
+      { id: 18, nama: "Lipstik Matte", kategori: "Alat Make Up", harga: 50000, gambar: "LipstikMatte.webp" },
+      { id: 19, nama: "Lipstik Matte 12 warna", kategori: "Alat Make Up", harga: 50000, gambar: "lipstikMatte12Warna.jpg" },
+      { id: 20, nama: "Lipstik Inplora", kategori: "Alat Make Up", harga: 50000, gambar: "LipstikInflora.jpg" },
+      { id: 21, nama: "Matte Lip Cream", kategori: "Alat Make Up", harga: 90000, gambar: "MatteLippCream.jpg" }
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
       tampilkanProduk("daftar-produk");
+      filterProduk();
       tampilkanProduk("daftar-produk-beranda");
+      document.getElementById("search").addEventListener("input", filterProduk);
+      document.getElementById("kategori").addEventListener("change", filterProduk);
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleButton = document.getElementById('toggleButton');
+      const menuItems = document.getElementById('menuItems');
+
+      toggleButton.addEventListener('click', function () {
+        // Toggle the visibility of the menu
+        if (menuItems.style.display === 'none' || menuItems.style.display === '') {
+          menuItems.style.display = 'block';
+        } else {
+          menuItems.style.display = 'none';
+        }
+      });
+    });
+
   </script>
+
+
 </body>
+
 </html>
